@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Premium Rice Seeds",
+    "price": 450.0,
+    "category": "Seeds",
+    "description": "High-yielding basmati rice seeds, disease resistant",
+    "image_url": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&h=200&fit=crop",
+    "rating": 4.5,
+    "stock": 100
+  },
+  {
+    "id": 2,
+    "name": "Wheat Seeds (HD-2967)",
+    "price": 380.0,
+    "category": "Seeds",
+    "description": "Drought-resistant wheat variety with high protein content",
+    "image_url": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=300&h=200&fit=crop",
+    "rating": 4.7,
+    "stock": 85
+  },
+  {
+    "id": 3,
+    "name": "Organic Neem Pesticide",
+    "price": 245.0,
+    "category": "Pesticides",
+    "description": "100% organic neem-based pesticide, safe for all crops",
+    "image_url": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop",
+    "rating": 4.3,
+    "stock": 150
+  },
+  {
+    "id": 4,
+    "name": "NPK Fertilizer (19:19:19)",
+    "price": 890.0,
+    "category": "Fertilizers",
+    "description": "Balanced NPK fertilizer for all crops, 50kg bag",
+    "image_url": "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=300&h=200&fit=crop",
+    "rating": 4.6,
+    "stock": 75
+  },
+  {
+    "id": 5,
+    "name": "Drip Irrigation Kit",
+    "price": 2850.0,
+    "category": "Equipment",
+    "description": "Complete drip irrigation system for 1 acre",
+    "image_url": "https://images.unsplash.com/photo-1574483750165-3d6b1e9e3b84?w=300&h=200&fit=crop",
+    "rating": 4.8,
+    "stock": 25
+  },
+  {
+    "id": 6,
+    "name": "Cotton Seeds (Bt Cotton)",
+    "price": 950.0,
+    "category": "Seeds",
+    "description": "Genetically modified cotton seeds with pest resistance",
+    "image_url": "https://images.unsplash.com/photo-1445149657058-297488a54e87?w=300&h=200&fit=crop",
+    "rating": 4.4,
+    "stock": 60
+  },
+  {
+    "id": 7,
+    "name": "Fungicide Spray",
+    "price": 325.0,
+    "category": "Pesticides",
+    "description": "Broad-spectrum fungicide for disease prevention",
+    "image_url": "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=300&h=200&fit=crop",
+    "rating": 4.2,
+    "stock": 120
+  },
+  {
+    "id": 8,
+    "name": "Soil pH Meter",
+    "price": 1250.0,
+    "category": "Equipment",
+    "description": "Digital soil pH and moisture meter",
+    "image_url": "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=300&h=200&fit=crop",
+    "rating": 4.5,
+    "stock": 40
+  }
+]

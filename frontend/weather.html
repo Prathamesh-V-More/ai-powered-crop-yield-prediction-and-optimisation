@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast - AgriSmart AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-seedling"></i> AgriSmart AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home"></i> Crop Prediction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="weather.html">
+                            <i class="fas fa-cloud-sun"></i> Weather Forecast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="disease-detection.html">
+                            <i class="fas fa-microscope"></i> Disease Detection
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="store.html">
+                            <i class="fas fa-shopping-cart"></i> AgriStore
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-5">
+                    <i class="fas fa-cloud-sun text-info"></i> Weather Forecast
+                </h1>
+            </div>
+        </div>
+
+        <!-- Location Selection -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6">
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h4 class="card-title text-center mb-4">Select Your Location</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="weatherState" class="form-label">State</label>
+                                <select class="form-select" id="weatherState">
+                                    <option value="">Select State</option>
+                                    <option value="KARNATAKA">Karnataka</option>
+                                    <option value="MAHARASHTRA">Maharashtra</option>
+                                    <option value="TAMIL NADU">Tamil Nadu</option>
+                                    <option value="PUNJAB">Punjab</option>
+                                    <option value="UTTAR PRADESH">Uttar Pradesh</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="weatherDistrict" class="form-label">District</label>
+                                <select class="form-select" id="weatherDistrict">
+                                    <option value="">Select District</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-info btn-lg" onclick="getWeatherData()">
+                                <i class="fas fa-search me-2"></i>Get Weather Forecast
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Weather -->
+        <div id="currentWeather" class="row mb-5" style="display: none;">
+            <div class="col-12">
+                <div class="card shadow border-0 rounded-4 weather-card">
+                    <div class="card-body p-5 text-white">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 text-center">
+                                <div class="current-temp display-1 mb-3" id="currentTemp">28°C</div>
+                                <div class="weather-desc fs-4" id="weatherDesc">Partly Cloudy</div>
+                                <div class="location-name mt-3" id="locationName">Bangalore, Karnataka</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="weather-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-tint"></i>
+                                        <span>Humidity</span>
+                                        <strong id="currentHumidity">75%</strong>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-wind"></i>
+                                        <span>Wind Speed</span>
+                                        <strong id="currentWind">12 km/h</strong>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-eye"></i>
+                                        <span>Visibility</span>
+                                        <strong id="currentVisibility">10 km</strong>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-thermometer-half"></i>
+                                        <span>Feels Like</span>
+                                        <strong id="feelsLike">32°C</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7-Day Forecast -->
+        <div id="weeklyForecast" class="row mb-5" style="display: none;">
+            <div class="col-12">
+                <h3 class="mb-4">7-Day Forecast</h3>
+                <div class="row" id="forecastDays">
+                    <!-- Forecast days will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Hourly Forecast -->
+        <div id="hourlyForecast" class="row mb-5" style="display: none;">
+            <div class="col-12">
+                <h3 class="mb-4">24-Hour Forecast</h3>
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body">
+                        <div class="hourly-scroll" id="hourlyData">
+                            <!-- Hourly data will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agricultural Insights -->
+        <div id="agriInsights" class="row mb-5" style="display: none;">
+            <div class="col-12">
+                <h3 class="mb-4">Agricultural Weather Insights</h3>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-0 rounded-4" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+                            <div class="card-body text-center text-white">
+                                <i class="fas fa-seedling fa-3x mb-3"></i>
+                                <h5>Planting Conditions</h5>
+                                <p id="plantingAdvice">Good conditions for planting</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-0 rounded-4" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                            <div class="card-body text-center">
+                                <i class="fas fa-tint fa-3x mb-3 text-info"></i>
+                                <h5>Irrigation Advice</h5>
+                                <p id="irrigationAdvice">Moderate irrigation needed</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-0 rounded-4" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                            <div class="card-body text-center">
+                                <i class="fas fa-bug fa-3x mb-3 text-warning"></i>
+                                <h5>Pest Alert</h5>
+                                <p id="pestAlert">Low pest activity expected</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const stateDistricts = {
+            "KARNATAKA": ["BANGALORE URBAN", "MYSORE", "MANGALORE", "HUBLI", "BELGAUM"],
+            "MAHARASHTRA": ["MUMBAI", "PUNE", "NASHIK", "AURANGABAD", "NAGPUR"],
+            "TAMIL NADU": ["CHENNAI", "COIMBATORE", "MADURAI", "SALEM", "TIRUPUR"],
+            "PUNJAB": ["AMRITSAR", "LUDHIANA", "JALANDHAR", "PATIALA", "BATHINDA"],
+            "UTTAR PRADESH": ["LUCKNOW", "KANPUR", "AGRA", "VARANASI", "ALLAHABAD"]
+        };
+
+        document.getElementById('weatherState').addEventListener('change', function() {
+            const state = this.value;
+            const districtSelect = document.getElementById('weatherDistrict');
+            
+            districtSelect.innerHTML = '<option value="">Select District</option>';
+            
+            if (state && stateDistricts[state]) {
+                stateDistricts[state].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
+
+        async function getWeatherData() {
+            const state = document.getElementById('weatherState').value;
+            const district = document.getElementById('weatherDistrict').value;
+            
+            if (!state || !district) {
+                alert('Please select both state and district');
+                return;
+            }
+            
+            // Show loading
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+            button.disabled = true;
+            
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Generate mock weather data
+                const weatherData = generateWeatherData(state, district);
+                displayWeatherData(weatherData, state, district);
+                
+            } catch (error) {
+                console.error('Weather data error:', error);
+                alert('Error fetching weather data');
+            } finally {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        function generateWeatherData(state, district) {
+            const currentTemp = Math.round(25 + Math.random() * 10);
+            const humidity = Math.round(60 + Math.random() * 30);
+            const windSpeed = Math.round(5 + Math.random() * 15);
+            
+            const weatherConditions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain'];
+            const currentCondition = weatherConditions[Math.floor(Math.random() * weatherConditions.length)];
+            
+            // Generate 7-day forecast
+            const forecast = [];
+            const days = ['Today', 'Tomorrow', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            
+            for (let i = 0; i < 7; i++) {
+                forecast.push({
+                    day: days[i],
+                    high: Math.round(currentTemp + Math.random() * 6 - 3),
+                    low: Math.round(currentTemp - 5 + Math.random() * 4),
+                    condition: weatherConditions[Math.floor(Math.random() * weatherConditions.length)],
+                    rain: Math.round(Math.random() * 20),
+                    humidity: Math.round(humidity + Math.random() * 20 - 10)
+                });
+            }
+            
+            // Generate hourly forecast
+            const hourly = [];
+            for (let i = 0; i < 24; i++) {
+                const hour = new Date();
+                hour.setHours(hour.getHours() + i);
+                
+                hourly.push({
+                    time: hour.getHours() + ':00',
+                    temp: Math.round(currentTemp + Math.sin(i * Math.PI / 12) * 5),
+                    condition: weatherConditions[Math.floor(Math.random() * weatherConditions.length)],
+                    rain: Math.round(Math.random() * 5)
+                });
+            }
+            
+            return {
+                current: {
+                    temp: currentTemp,
+                    condition: currentCondition,
+                    humidity: humidity,
+                    windSpeed: windSpeed,
+                    visibility: Math.round(8 + Math.random() * 4),
+                    feelsLike: Math.round(currentTemp + 2 + Math.random() * 4)
+                },
+                forecast: forecast,
+                hourly: hourly
+            };
+        }
+
+        function displayWeatherData(data, state, district) {
+            // Display current weather
+            document.getElementById('currentTemp').textContent = data.current.temp + '°C';
+            document.getElementById('weatherDesc').textContent = data.current.condition;
+            document.getElementById('locationName').textContent = `${district}, ${state}`;
+            document.getElementById('currentHumidity').textContent = data.current.humidity + '%';
+            document.getElementById('currentWind').textContent = data.current.windSpeed + ' km/h';
+            document.getElementById('currentVisibility').textContent = data.current.visibility + ' km';
+            document.getElementById('feelsLike').textContent = data.current.feelsLike + '°C';
+            
+            // Display 7-day forecast
+            const forecastDays = document.getElementById('forecastDays');
+            forecastDays.innerHTML = data.forecast.map(day => `
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100 border-0 rounded-4 text-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="card-body text-white">
+                            <h6 class="mb-3">${day.day}</h6>
+                            <div class="weather-icon mb-3">
+                                <i class="fas ${getWeatherIcon(day.condition)} fa-2x"></i>
+                            </div>
+                            <div class="temp-range mb-2">
+                                <strong>${day.high}°</strong> / <span>${day.low}°</span>
+                            </div>
+                            <div class="condition mb-2">${day.condition}</div>
+                            <div class="rain-chance">
+                                <i class="fas fa-tint"></i> ${day.rain}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Display hourly forecast
+            const hourlyData = document.getElementById('hourlyData');
+            hourlyData.innerHTML = data.hourly.slice(0, 12).map(hour => `
+                <div class="hourly-item">
+                    <div class="hour-time">${hour.time}</div>
+                    <i class="fas ${getWeatherIcon(hour.condition)}"></i>
+                    <div class="hour-temp">${hour.temp}°</div>
+                    <div class="hour-rain">${hour.rain}%</div>
+                </div>
+            `).join('');
+            
+            // Generate agricultural insights
+            generateAgriInsights(data);
+            
+            // Show all sections
+            document.getElementById('currentWeather').style.display = 'block';
+            document.getElementById('weeklyForecast').style.display = 'block';
+            document.getElementById('hourlyForecast').style.display = 'block';
+            document.getElementById('agriInsights').style.display = 'block';
+            
+            // Smooth scroll to results
+            document.getElementById('currentWeather').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getWeatherIcon(condition) {
+            const icons = {
+                'Sunny': 'fa-sun',
+                'Partly Cloudy': 'fa-cloud-sun',
+                'Cloudy': 'fa-cloud',
+                'Light Rain': 'fa-cloud-rain',
+                'Rain': 'fa-cloud-rain'
+            };
+            return icons[condition] || 'fa-sun';
+        }
+
+        function generateAgriInsights(data) {
+            const temp = data.current.temp;
+            const humidity = data.current.humidity;
+            const avgRain = data.forecast.reduce((sum, day) => sum + day.rain, 0) / 7;
+            
+            let plantingAdvice, irrigationAdvice, pestAlert;
+            
+            if (temp >= 25 && temp <= 35 && humidity >= 60) {
+                plantingAdvice = "Excellent conditions for most crops";
+            } else if (temp > 35) {
+                plantingAdvice = "Hot weather - consider heat-resistant varieties";
+            } else {
+                plantingAdvice = "Cool weather - suitable for winter crops";
+            }
+            
+            if (avgRain > 15) {
+                irrigationAdvice = "Reduce irrigation due to expected rainfall";
+            } else if (avgRain < 5 && temp > 30) {
+                irrigationAdvice = "Increase irrigation frequency";
+            } else {
+                irrigationAdvice = "Maintain regular irrigation schedule";
+            }
+            
+            if (humidity > 80 && temp > 25) {
+                pestAlert = "High humidity may increase disease risk";
+            } else if (temp > 35) {
+                pestAlert = "Hot weather may stress plants";
+            } else {
+                pestAlert = "Favorable conditions, monitor regularly";
+            }
+            
+            document.getElementById('plantingAdvice').textContent = plantingAdvice;
+            document.getElementById('irrigationAdvice').textContent = irrigationAdvice;
+            document.getElementById('pestAlert').textContent = pestAlert;
+        }
+
+        // Initialize with default data
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('weatherState').value = 'KARNATAKA';
+            document.getElementById('weatherState').dispatchEvent(new Event('change'));
+            
+            setTimeout(() => {
+                document.getElementById('weatherDistrict').value = 'BANGALORE URBAN';
+            }, 100);
+        });
+    </script>
+
+    <style>
+        .weather-card {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .hourly-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+        
+        .hourly-item {
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .hour-time {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hour-temp {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .hour-rain {
+            color: #0984e3;
+            font-size: 0.9rem;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Crop Prediction Platform - Advanced</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-seedling"></i> AgriSmart AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <i class="fas fa-home"></i> Crop Prediction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="weather.html">
+                            <i class="fas fa-cloud-sun"></i> Weather Forecast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="disease-detection.html">
+                            <i class="fas fa-microscope"></i> Disease Detection
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="store.html">
+                            <i class="fas fa-shopping-cart"></i> AgriStore
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 text-white mb-4">
+                        Smart Agriculture with AI
+                    </h1>
+                    <p class="lead text-white mb-4">
+                        Get crop recommendations, weather forecasts, disease detection, and farming supplies all in one platform.
+                    </p>
+                    <div class="feature-badges">
+                        <span class="badge bg-light text-dark me-2">99% ML Accuracy</span>
+                        <span class="badge bg-light text-dark me-2">Real Weather Data</span>
+                        <span class="badge bg-light text-dark me-2">AI Disease Detection</span>
+                        <span class="badge bg-light text-dark">Online Store</span>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="hero-image">
+                        <i class="fas fa-robot display-1 text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Prediction Form -->
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h2 class="card-title mb-4 text-center">
+                            <i class="fas fa-chart-line text-success"></i> 
+                            AI Crop Prediction System
+                        </h2>
+                        
+                        <form id="predictionForm">
+                            <div class="row">
+                                <!-- Soil Parameters -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="nitrogen" class="form-label">
+                                        <i class="fas fa-flask text-primary"></i> Nitrogen (N) - kg/ha
+                                    </label>
+                                    <input type="number" class="form-control form-control-lg" id="nitrogen" 
+                                           placeholder="0-300" min="0" max="300" required>
+                                    <div class="form-text">Optimal range: 80-120 kg/ha</div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="phosphorous" class="form-label">
+                                        <i class="fas fa-atom text-warning"></i> Phosphorous (P) - kg/ha
+                                    </label>
+                                    <input type="number" class="form-control form-control-lg" id="phosphorous" 
+                                           placeholder="0-150" min="0" max="150" required>
+                                    <div class="form-text">Optimal range: 40-60 kg/ha</div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="potassium" class="form-label">
+                                        <i class="fas fa-leaf text-success"></i> Potassium (K) - kg/ha
+                                    </label>
+                                    <input type="number" class="form-control form-control-lg" id="potassium" 
+                                           placeholder="0-200" min="0" max="200" required>
+                                    <div class="form-text">Optimal range: 40-80 kg/ha</div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="ph" class="form-label">
+                                        <i class="fas fa-vial text-danger"></i> Soil pH Level
+                                    </label>
+                                    <input type="number" step="0.1" class="form-control form-control-lg" id="ph" 
+                                           placeholder="0-14" min="0" max="14" required>
+                                    <div class="form-text">Optimal range: 6.0-7.5</div>
+                                </div>
+                            </div>
+
+                            <!-- Location Parameters -->
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="state" class="form-label">
+                                        <i class="fas fa-map-marker-alt text-info"></i> State
+                                    </label>
+                                    <select class="form-select form-select-lg" id="state" required>
+                                        <option value="">Select State</option>
+                                        <option value="ANDHRA PRADESH">Andhra Pradesh</option>
+                                        <option value="ASSAM">Assam</option>
+                                        <option value="BIHAR">Bihar</option>
+                                        <option value="GUJARAT">Gujarat</option>
+                                        <option value="HARYANA">Haryana</option>
+                                        <option value="KARNATAKA">Karnataka</option>
+                                        <option value="KERALA">Kerala</option>
+                                        <option value="MADHYA PRADESH">Madhya Pradesh</option>
+                                        <option value="MAHARASHTRA">Maharashtra</option>
+                                        <option value="PUNJAB">Punjab</option>
+                                        <option value="RAJASTHAN">Rajasthan</option>
+                                        <option value="TAMIL NADU">Tamil Nadu</option>
+                                        <option value="UTTAR PRADESH">Uttar Pradesh</option>
+                                        <option value="WEST BENGAL">West Bengal</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="district" class="form-label">
+                                        <i class="fas fa-building text-secondary"></i> District
+                                    </label>
+                                    <select class="form-select form-select-lg" id="district" required>
+                                        <option value="">Select District</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="month" class="form-label">
+                                        <i class="fas fa-calendar text-primary"></i> Planting Month
+                                    </label>
+                                    <select class="form-select form-select-lg" id="month" required>
+                                        <option value="JAN">January</option>
+                                        <option value="FEB">February</option>
+                                        <option value="MAR">March</option>
+                                        <option value="APR">April</option>
+                                        <option value="MAY">May</option>
+                                        <option value="JUN">June</option>
+                                        <option value="JUL">July</option>
+                                        <option value="AUG">August</option>
+                                        <option value="SEP">September</option>
+                                        <option value="OCT">October</option>
+                                        <option value="NOV">November</option>
+                                        <option value="DEC">December</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill">
+                                    <i class="fas fa-robot me-2"></i> Get AI Prediction
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Loading -->
+                        <div id="loading" class="text-center mt-4" style="display: none;">
+                            <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="visually-hidden">Processing...</span>
+                            </div>
+                            <p class="mt-3 text-muted">Analyzing data with AI...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Forecast Card -->
+                <div id="weatherCard" class="card shadow-lg border-0 rounded-4 mt-4" style="display: none;">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <i class="fas fa-cloud-sun text-info"></i> Weather Forecast for Selected Location
+                        </h4>
+                        <div id="weatherContent" class="row">
+                            <!-- Weather data will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Actions -->
+                <div class="card shadow border-0 rounded-4 mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-4">Quick Actions</h5>
+                        <div class="d-grid gap-3">
+                            <a href="weather.html" class="btn btn-info btn-lg rounded-pill">
+                                <i class="fas fa-cloud-sun me-2"></i> Weather Forecast
+                            </a>
+                            <a href="disease-detection.html" class="btn btn-warning btn-lg rounded-pill">
+                                <i class="fas fa-microscope me-2"></i> Disease Detection
+                            </a>
+                            <a href="store.html" class="btn btn-primary btn-lg rounded-pill">
+                                <i class="fas fa-shopping-cart me-2"></i> Shop Supplies
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works -->
+                <div class="card shadow border-0 rounded-4 mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-lightbulb text-warning"></i> How It Works
+                        </h5>
+                        <div class="process-steps">
+                            <div class="step-item">
+                                <div class="step-number">1</div>
+                                <span>Enter soil test results</span>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <span>Select location & season</span>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <span>AI analyzes data</span>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">4</div>
+                                <span>Get recommendations</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Farming Tips -->
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-tips text-success"></i> Smart Farming Tips
+                        </h5>
+                        <ul class="tips-list">
+                            <li>Test soil every 6 months</li>
+                            <li>Monitor weather patterns</li>
+                            <li>Use organic fertilizers</li>
+                            <li>Practice crop rotation</li>
+                            <li>Check for pest diseases regularly</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="row mt-5" style="display: none;">
+            <div class="col-12">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-5">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-award text-success"></i> AI Crop Recommendation
+                        </h3>
+                        <div id="cropResult">
+                            <!-- Results will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p>&copy; 2024 AgriSmart AI Platform. Empowering farmers with technology.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

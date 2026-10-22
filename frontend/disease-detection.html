@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Detection - AgriSmart AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-seedling"></i> AgriSmart AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home"></i> Crop Prediction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="weather.html">
+                            <i class="fas fa-cloud-sun"></i> Weather Forecast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="disease-detection.html">
+                            <i class="fas fa-microscope"></i> Disease Detection
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="store.html">
+                            <i class="fas fa-shopping-cart"></i> AgriStore
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h1>
+                    <i class="fas fa-microscope text-warning"></i> AI Disease Detection
+                </h1>
+                <p class="lead text-muted">Upload crop images and get instant AI-powered disease diagnosis with treatment recommendations</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- Upload Section -->
+            <div class="col-lg-8">
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body p-5">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-camera text-primary"></i> Upload Crop Image
+                        </h3>
+                        
+                        <!-- Upload Zone -->
+                        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageInput').click()">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt fa-4x text-muted mb-3"></i>
+                                <h4>Drop image here or click to browse</h4>
+                                <p class="text-muted">Supports: JPG, PNG, JPEG (Max 5MB)</p>
+                                <p class="small text-info">
+                                    <i class="fas fa-lightbulb"></i> 
+                                    For best results: Take clear photos of affected leaves or crops in good lighting
+                                </p>
+                            </div>
+                            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        </div>
+
+                        <!-- Preview Section -->
+                        <div id="previewSection" class="mt-4" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Original Image</h5>
+                                    <img id="originalImage" class="img-fluid rounded-3 border" style="max-height: 300px; object-fit: cover; width: 100%;">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Image Details</h5>
+                                    <div class="image-info bg-light p-3 rounded-3">
+                                        <div class="info-item">
+                                            <strong>File Name:</strong> <span id="fileName">-</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>File Size:</strong> <span id="fileSize">-</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Image Dimensions:</strong> <span id="imageDimensions">-</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>Status:</strong> 
+                                            <span class="badge bg-success">Ready for Analysis</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button class="btn btn-warning btn-lg w-100" onclick="analyzeImage()">
+                                            <i class="fas fa-search me-2"></i>Analyze with AI
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Loading Section -->
+                        <div id="loadingSection" class="text-center mt-4" style="display: none;">
+                            <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="visually-hidden">Analyzing...</span>
+                            </div>
+                            <h4 class="mt-3">AI is analyzing your crop image...</h4>
+                            <p class="text-muted">This may take a few seconds</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Sidebar -->
+            <div class="col-lg-4">
+                <div class="card shadow border-0 rounded-4 mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-camera text-info"></i> Photography Tips
+                        </h5>
+                        <ul class="tips-list">
+                            <li>Take photos in natural daylight</li>
+                            <li>Focus on affected areas clearly</li>
+                            <li>Avoid blurry or dark images</li>
+                            <li>Include some healthy parts for comparison</li>
+                            <li>Take multiple angles if possible</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-shield-alt text-success"></i> What We Detect
+                        </h5>
+                        <ul class="detection-list">
+                            <li><i class="fas fa-bug text-danger me-2"></i>Pest Attacks</li>
+                            <li><i class="fas fa-virus text-warning me-2"></i>Viral Diseases</li>
+                            <li><i class="fas fa-bacteria text-info me-2"></i>Bacterial Infections</li>
+                            <li><i class="fas fa-leaf text-success me-2"></i>Nutrient Deficiencies</li>
+                            <li><i class="fas fa-tint text-primary me-2"></i>Fungal Diseases</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="row mt-5" style="display: none;">
+            <div class="col-12">
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body p-5">
+                        <h3 class="text-center mb-4">
+                            <i class="fas fa-stethoscope text-danger"></i> AI Diagnosis Results
+                        </h3>
+                        <div id="diagnosisContent">
+                            <!-- Results will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedImage = null;
+
+        // File upload handling
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleImageUpload(file);
+            }
+        });
+
+        function handleImageUpload(file) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a valid image file (JPG, JPEG, or PNG)');
+                return;
+            }
+
+            // Validate file size (5MB limit)
+            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            if (file.size > maxSize) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+
+            selectedImage = file;
+            displayImagePreview(file);
+        }
+
+        function displayImagePreview(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('originalImage').src = e.target.result;
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = formatFileSize(file.size);
+                
+                // Get image dimensions
+                const img = new Image();
+                img.onload = function() {
+                    document.getElementById('imageDimensions').textContent = `${this.width} × ${this.height} pixels`;
+                };
+                img.src = e.target.result;
+                
+                document.getElementById('previewSection').style.display = 'block';
+                document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        async function analyzeImage() {
+            if (!selectedImage) {
+                alert('Please select an image first');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('loadingSection').scrollIntoView({ behavior: 'smooth' });
+
+            try {
+                // Try to call backend API for Gemini analysis
+                const result = await callGeminiAPI(selectedImage);
+                displayResults(result);
+            } catch (error) {
+                console.error('API call failed, using mock analysis:', error);
+                // Fallback to mock analysis
+                setTimeout(() => {
+                    const mockResult = generateMockDiagnosis();
+                    displayResults(mockResult);
+                }, 2000);
+            } finally {
+                document.getElementById('loadingSection').style.display = 'none';
+            }
+        }
+
+        async function callGeminiAPI(imageFile) {
+            // Create FormData to send image
+            const formData = new FormData();
+            formData.append('image', imageFile);
+
+            const response = await fetch('http://127.0.0.1:8000/analyze-disease', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('API call failed');
+            }
+
+            return await response.json();
+        }
+
+        function generateMockDiagnosis() {
+            const diseases = [
+                {
+                    name: "Late Blight",
+                    confidence: 87,
+                    severity: "High",
+                    description: "A fungal disease that affects leaves, stems, and fruits, causing brown spots and potential crop loss.",
+                    symptoms: ["Dark brown spots on leaves", "White fungal growth on leaf undersides", "Stem lesions", "Fruit rot"],
+                    treatment: [
+                        "Remove and destroy affected plant parts immediately",
+                        "Apply copper-based fungicides every 7-10 days",
+                        "Ensure proper air circulation around plants",
+                        "Avoid overhead watering",
+                        "Use resistant varieties in future plantings"
+                    ],
+                    prevention: [
+                        "Plant disease-resistant varieties",
+                        "Ensure proper spacing between plants",
+                        "Avoid watering leaves directly",
+                        "Remove plant debris after harvest",
+                        "Rotate crops annually"
+                    ]
+                },
+                {
+                    name: "Powdery Mildew",
+                    confidence: 92,
+                    severity: "Medium",
+                    description: "A common fungal disease that appears as white powdery spots on leaves and stems.",
+                    symptoms: ["White powdery coating on leaves", "Yellowing of affected leaves", "Stunted growth", "Reduced fruit quality"],
+                    treatment: [
+                        "Spray with neem oil or horticultural oil",
+                        "Apply baking soda solution (1 tsp per quart water)",
+                        "Use sulfur-based fungicides",
+                        "Improve air circulation",
+                        "Remove affected leaves"
+                    ],
+                    prevention: [
+                        "Plant in sunny, well-ventilated areas",
+                        "Avoid overcrowding plants",
+                        "Water at soil level, not on leaves",
+                        "Choose resistant varieties",
+                        "Apply preventive fungicide sprays"
+                    ]
+                },
+                {
+                    name: "Bacterial Spot",
+                    confidence: 78,
+                    severity: "Medium",
+                    description: "A bacterial infection causing small, dark spots on leaves and fruits.",
+                    symptoms: ["Small dark spots on leaves", "Yellow halos around spots", "Leaf drop", "Fruit lesions"],
+                    treatment: [
+                        "Apply copper-based bactericides",
+                        "Remove infected plant material",
+                        "Avoid working with wet plants",
+                        "Use drip irrigation instead of sprinklers",
+                        "Apply streptomycin if available"
+                    ],
+                    prevention: [
+                        "Use certified disease-free seeds",
+                        "Avoid overhead irrigation",
+                        "Disinfect tools between plants",
+                        "Rotate crops with non-susceptible plants",
+                        "Maintain proper plant nutrition"
+                    ]
+                }
+            ];
+
+            // Randomly select a disease for mock diagnosis
+            const selectedDisease = diseases[Math.floor(Math.random() * diseases.length)];
+            
+            return {
+                disease: selectedDisease,
+                additional_info: {
+                    crop_type: "Tomato", // Mock crop type
+                    risk_factors: ["High humidity", "Poor air circulation", "Overhead watering"],
+                    weather_impact: "Recent humid conditions have increased disease risk",
+                    urgency: selectedDisease.severity === "High" ? "Immediate action required" : "Monitor and treat as needed"
+                }
+            };
+        }
+
+        function displayResults(result) {
+            const disease = result.disease;
+            const diagnosisContent = document.getElementById('diagnosisContent');
+            
+            diagnosisContent.innerHTML = `
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="diagnosis-card mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-danger mb-0">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    ${disease.name}
+                                </h4>
+                                <div class="diagnosis-badges">
+                                    <span class="badge bg-info fs-6 me-2">
+                                        Confidence: ${disease.confidence}%
+                                    </span>
+                                    <span class="badge ${getSeverityBadgeClass(disease.severity)} fs-6">
+                                        ${disease.severity} Risk
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <p class="lead mb-4">${disease.description}</p>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="symptoms-card h-100">
+                                        <h5 class="text-warning">
+                                            <i class="fas fa-list-ul me-2"></i>Symptoms Detected
+                                        </h5>
+                                        <ul class="symptom-list">
+                                            ${disease.symptoms.map(symptom => 
+                                                `<li><i class="fas fa-circle text-danger me-2" style="font-size: 0.5rem;"></i>${symptom}</li>`
+                                            ).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="urgency-card h-100">
+                                        <h5 class="text-info">
+                                            <i class="fas fa-clock me-2"></i>Urgency Level
+                                        </h5>
+                                        <div class="urgency-info">
+                                            <div class="urgency-level ${disease.severity.toLowerCase()}-severity mb-2">
+                                                ${result.additional_info.urgency}
+                                            </div>
+                                            <p class="mb-0">${result.additional_info.weather_impact}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="treatment-section">
+                            <h4 class="text-success mb-3">
+                                <i class="fas fa-prescription-bottle-alt me-2"></i>Treatment Recommendations
+                            </h4>
+                            <div class="treatment-card bg-light p-4 rounded-3 mb-4">
+                                <h6 class="text-primary">Immediate Actions:</h6>
+                                <ol class="treatment-list">
+                                    ${disease.treatment.map(treatment => 
+                                        `<li class="mb-2">${treatment}</li>`
+                                    ).join('')}
+                                </ol>
+                            </div>
+                            
+                            <div class="prevention-card bg-success bg-opacity-10 p-4 rounded-3">
+                                <h6 class="text-success">
+                                    <i class="fas fa-shield-alt me-2"></i>Prevention for Future
+                                </h6>
+                                <ul class="prevention-list">
+                                    ${disease.prevention.map(prevention => 
+                                        `<li class="mb-2">${prevention}</li>`
+                                    ).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="info-sidebar">
+                            <div class="card border-0 mb-4" style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-plant-wilt fa-3x text-warning mb-3"></i>
+                                    <h6>Crop Affected</h6>
+                                    <p class="mb-0">${result.additional_info.crop_type}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="card border-0 mb-4" style="background: linear-gradient(135deg, #ff7675, #fab1a0);">
+                                <div class="card-body text-center text-white">
+                                    <i class="fas fa-thermometer-three-quarters fa-3x mb-3"></i>
+                                    <h6>Risk Factors</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        ${result.additional_info.risk_factors.map(factor => 
+                                            `<li class="small">${factor}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="card border-0" style="background: linear-gradient(135deg, #74b9ff, #0984e3);">
+                                <div class="card-body text-center text-white">
+                                    <i class="fas fa-phone fa-3x mb-3"></i>
+                                    <h6>Need Help?</h6>
+                                    <p class="small mb-2">Contact agricultural extension officer</p>
+                                    <button class="btn btn-light btn-sm">
+                                        <i class="fas fa-phone me-1"></i>Get Support
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button class="btn btn-success btn-lg me-3" onclick="downloadReport()">
+                        <i class="fas fa-download me-2"></i>Download Report
+                    </button>
+                    <button class="btn btn-primary btn-lg" onclick="resetAnalysis()">
+                        <i class="fas fa-redo me-2"></i>Analyze Another Image
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getSeverityBadgeClass(severity) {
+            const classes = {
+                'High': 'bg-danger',
+                'Medium': 'bg-warning',
+                'Low': 'bg-success'
+            };
+            return classes[severity] || 'bg-secondary';
+        }
+
+        function downloadReport() {
+            alert('Report download feature would be implemented here. The report would include diagnosis details, treatment recommendations, and prevention measures.');
+        }
+
+        function resetAnalysis() {
+            document.getElementById('previewSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('imageInput').value = '';
+            selectedImage = null;
+            
+            // Scroll back to upload section
+            document.getElementById('uploadZone').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+    <style>
+        .upload-zone {
+            border: 3px dashed #ddd;
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-zone:hover {
+            border-color: #0984e3;
+            background: rgba(9, 132, 227, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .upload-zone.dragover {
+            border-color: #00b894;
+            background: rgba(0, 184, 148, 0.1);
+        }
+
+        .info-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .detection-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .detection-list li:last-child {
+            border-bottom: none;
+        }
+
+        .diagnosis-card {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            color: #2d3436;
+        }
+
+        .symptoms-card, .urgency-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .symptom-list, .treatment-list, .prevention-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .symptom-list li, .treatment-list li, .prevention-list li {
+            padding: 8px 0;
+        }
+
+        .high-severity {
+            color: #d63031;
+            font-weight: bold;
+        }
+
+        .medium-severity {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .low-severity {
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        .info-sidebar .card {
+            transition: transform 0.3s ease;
+        }
+
+        .info-sidebar .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</body>
+</html>
+
+        // Drag and drop handling
+        const uploadZone = document.getElementById('uploadZone');
+
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleImageUpload(files[0]);

@@ -1,0 +1,26 @@
+# backend/requirements.txt - Enhanced version
+
+# Core FastAPI dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Data processing and ML
+numpy==1.24.3
+pandas==2.0.3
+pydantic==1.10.13
+
+# Google Gemini AI
+google-generativeai==0.3.2
+
+# Image processing
+Pillow==10.1.0
+
+# File handling
+aiofiles==23.2.0
+
+# HTTP requests
+requests==2.31.0
+
+# Additional utilities
+python-decouple==3.8
